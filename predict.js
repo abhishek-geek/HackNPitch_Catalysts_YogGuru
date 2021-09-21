@@ -1,31 +1,16 @@
-// ml5.js: Pose Regression
-// The Coding Train / Daniel Shiffman
-// https://thecodingtrain.com/learning/ml5/7.3-pose-regression.html
-// https://youtu.be/lob74HqHYJ0
-
-// All code: https://editor.p5js.org/codingtrain/sketches/JI_j-PiLk
-
-// Separated into three sketches
-// 1: Data Collection: https://editor.p5js.org/codingtrain/sketches/Fe1ZNKw1Z
-// 2: Model Training: https://editor.p5js.org/codingtrain/sketches/KLrIligVq
-// 3: Model Deployment: https://editor.p5js.org/codingtrain/sketches/nejAYCA6N
-
 let video;
 let poseNet;
 let pose;
 let skeleton;
 
 let brain;
+let poseLabel = "";
 
-let rSlider, gSlider, bSlider;
+let state = 'waiting';
+let targetLabel;
 
 function setup() {
   createCanvas(640, 480);
-
-  rSlider = createSlider(0, 255, 0);
-  gSlider = createSlider(0, 255, 0);
-  bSlider = createSlider(0, 255, 0);
-
   video = createCapture(VIDEO);
   video.hide();
   poseNet = ml5.poseNet(video, modelLoaded);
@@ -33,26 +18,31 @@ function setup() {
 
   let options = {
     inputs: 34,
-    outputs: 3,
-    task: 'regression',
+    outputs: 2,
+    task: 'classification',
     debug: true
-  };
+  }
   brain = ml5.neuralNetwork(options);
-  console.log("line 41");
+  
+  // LOAD PRETRAINED MODEL
   const modelInfo = {
-    model: 'model/model.json',
-    metadata: 'model/model_meta.json',
-    weights: 'model/model.weights.bin'
+    model: './model/model.json',
+    metadata: './model/model_meta.json',
+    weights: './model/model.weights.bin',
   };
   brain.load(modelInfo, brainLoaded);
+
+  // LOAD TRAINING DATA
+  // brain.loadData("./data/rl.json", dataReady);
 }
 
 function brainLoaded() {
-  console.log('pose predicting ready!');
-  predictColor();
+  console.log("loaded pretrained model");
+  // state = "predicting";
+  classifyPose();
 }
 
-function predictColor() {
+function classifyPose() {
   if (pose) {
     let inputs = [];
     for (let i = 0; i < pose.keypoints.length; i++) {
@@ -61,30 +51,51 @@ function predictColor() {
       inputs.push(x);
       inputs.push(y);
     }
-    brain.predict(inputs, gotResult);
+    brain.classify(inputs, gotResult);
   } else {
-    setTimeout(predictColor, 100);
+    setTimeout(classifyPose, 100);
   }
 }
 
-function gotResult(error, results) {
-  console.log(results);
-  let r = results[0].value;
-  let g = results[1].value;
-  let b = results[2].value;
-  rSlider.value(r);
-  gSlider.value(g);
-  bSlider.value(b);
-  predictColor();
+function gotResult(error, results) {  
+  if (results[0].confidence > 0.75) {
+    poseLabel = results[0].label.toUpperCase();
+  }
+  classifyPose();
+}
+
+function dataReady() {
+  brain.normalizeData();
+  brain.train({
+    epochs: 50
+  }, finished);
+}
+
+function finished() {
+  console.log('model trained');
+  brain.save();
+  classifyPose();
 }
 
 function gotPoses(poses) {
-  // console.log(poses);
+  // console.log(poses); 
   if (poses.length > 0) {
     pose = poses[0].pose;
     skeleton = poses[0].skeleton;
+    if (state == 'collecting') {
+      let inputs = [];
+      for (let i = 0; i < pose.keypoints.length; i++) {
+        let x = pose.keypoints[i].position.x;
+        let y = pose.keypoints[i].position.y;
+        inputs.push(x);
+        inputs.push(y);
+      }
+      let target = [targetLabel];
+      brain.addData(inputs, target);
+    }
   }
 }
+
 
 function modelLoaded() {
   console.log('poseNet ready');
@@ -115,8 +126,9 @@ function draw() {
   }
   pop();
 
-  let r = rSlider.value();
-  let g = gSlider.value();
-  let b = bSlider.value();
-  background(r, g, b, 100);
+  fill(255, 0, 255);
+  noStroke();
+  textSize(512);
+  textAlign(CENTER, CENTER);
+  text(poseLabel, width / 2, height / 2);
 }

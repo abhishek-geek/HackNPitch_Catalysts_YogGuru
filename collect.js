@@ -1,15 +1,3 @@
-// ml5.js: Pose Classification
-// The Coding Train / Daniel Shiffman
-// https://thecodingtrain.com/learning/ml5/7.2-pose-classification.html
-// https://youtu.be/FYgYyq-xqAw
-
-// All code: https://editor.p5js.org/codingtrain/sketches/JoZl-QRPK
-
-// Separated into three sketches
-// 1: Data Collection: https://editor.p5js.org/codingtrain/sketches/kTM0Gm-1q
-// 2: Model Training: https://editor.p5js.org/codingtrain/sketches/-Ywq20rM9
-// 3: Model Deployment: https://editor.p5js.org/codingtrain/sketches/c5sDNr8eM
-
 let video;
 let poseNet;
 let pose;
@@ -25,10 +13,11 @@ function keyPressed() {
   if (key == 't') {
     console.log("going to train");
     brain.normalizeData();
-    brain.train({epochs: 50}, finished); 
+    brain.train({epochs: 50}, finished);
   } else if (key == 's') {
     brain.saveData();
   } else {
+    // console.log(key);
     targetLabel = key;
     console.log(targetLabel);
     setTimeout(function() {
@@ -51,26 +40,17 @@ function setup() {
 
   let options = {
     inputs: 34,
-    outputs: 4,
+    outputs: 2,
     task: 'classification',
     debug: true
   }
-  brain = ml5.neuralNetwork(options);
   
-  // LOAD PRETRAINED MODEL
-  // const modelInfo = {
-  //   model: 'model/model.json',
-  //   metadata: 'model/model_meta.json',
-  //   weights: 'model/model.weights.bin',
-  // };
-  // brain.load(modelInfo, brainLoaded);
-
-  // LOAD TRAINING DATA
-  // brain.loadData('rl.json', dataReady);
+  brain = ml5.neuralNetwork(options);
 }
 
 function brainLoaded() {
-  console.log('pose classification ready!');
+  console.log("loaded pretrained model");
+  // state = "predicting";
   classifyPose();
 }
 
@@ -108,12 +88,6 @@ function finished() {
   brain.save();
   classifyPose();
 }
-
-
-
-
-
-
 
 function gotPoses(poses) {
   // console.log(poses); 
