@@ -24,7 +24,7 @@ let targetLabel;
 function keyPressed() {
   if (key == 't') {
     console.log("going to train");
-    brain.normalizeData(()=>console.log("normalized"));
+    brain.normalizeData();
     brain.train({epochs: 50}, finished); 
   } else if (key == 's') {
     brain.saveData();
