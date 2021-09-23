@@ -1,3 +1,3 @@
 # YogGuru
 
-Yo.. sup~~
+Your Yoga AI Assisstant
