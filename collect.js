@@ -26,8 +26,8 @@ function keyPressed() {
       setTimeout(function() {
         console.log('not collecting');
         state = 'waiting';
-      }, 2000);
-    }, 1000);
+      }, 15000);
+    }, 5000);
   }
 }
 
