@@ -20,14 +20,14 @@
   <body>
     <nav class="navbar navbar-expand-md bg-light">
         <div class="container-fluid navi">
-            <a href="#" class="navbar-brand font-weight-bold">YogGuru</a>
+            <a href="/" class="navbar-brand font-weight-bold">YogGuru</a>
             <button class="navbar-toggler" type="button" data-toggler="collapse" data-target="#collapsenavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse text-center" id="collapsenavbar">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a href="#" class="nav-link ">HOME</a>
+                        <a href="/" class="nav-link ">HOME</a>
                     </li>
                     <li class="nav-item">
                         <a href="learn.html" class="nav-link ">LEARN</a>
@@ -40,6 +40,43 @@
   
         </div>
     </nav>
-    <script src="predict.js"></script>
+    <script src=""></script>
+    <section class="container video-outer">
+        <video id="myVideo1" autoplay style="width: 40%;">
+            <source src="images/phalakasana.mp4" type="video/mp4"/>
+        </video>
+
+        <!-- <video id="myVideo2" autoplay style="width: 40%;">
+            <source src="images/mountain.mp4" type="video/mp4"/>
+        </video> -->
+    </section>
+
+    <!-- voice assistant -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+    <script>
+        if (annyang) {
+          // Let's define our first command. First the text we expect, and then the function it should call
+          var commands = {
+            'play video 1': function() {
+              document.getElementById("myVideo1").play();
+            },
+            'pause video 1': function() {
+              document.getElementById("myVideo1").pause();
+            },
+            // 'play video 2': function() {
+            //   document.getElementById("myVideo2").play();
+            // },
+            // 'pause video 2': function() {
+            //   document.getElementById("myVideo2").pause();
+            // },
+          };
+        
+          // Add our commands to annyang
+          annyang.addCommands(commands);
+        
+          // Start listening. You can call this here, or attach this call to an event, button, etc.
+          annyang.start();
+        }
+    </script>
   </body>
 </html>
