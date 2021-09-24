@@ -9,6 +9,8 @@ let poseLabel = "";
 let state = 'waiting';
 let targetLabel;
 
+let input = "";
+
 function setup() {
   createCanvas(640, 480);
   video = createCapture(VIDEO);
@@ -57,11 +59,24 @@ function classifyPose() {
   }
 }
 
-function gotResult(error, results) {  
-  if (results[0].confidence > 0.75) {
-    poseLabel = results[0].label.toUpperCase();
+function gotResult(error, results) {
+  let res = results[0];
+  if(res.label == "p") {
+    if (results[0].confidence > 0.9999999) {
+      poseLabel = results[0].label.toUpperCase();
+    } else {
+      poseLabel = "";
+    }
+    classifyPose();
   }
-  classifyPose();
+  if(res.label == "w") {
+    if (results[0].confidence > 0.9) {
+      poseLabel = results[0].label.toUpperCase();
+    } else {
+      poseLabel = "";
+    }
+    classifyPose();
+  }
 }
 
 function dataReady() {
@@ -101,12 +116,13 @@ function modelLoaded() {
   console.log('poseNet ready');
 }
 
+
 function draw() {
   push();
   translate(video.width, 0);
   scale(-1, 1);
   image(video, 0, 0, video.width, video.height);
-
+  
   if (pose) {
     for (let i = 0; i < skeleton.length; i++) {
       let a = skeleton[i][0];
@@ -126,13 +142,41 @@ function draw() {
   }
   pop();
 
+  let t = document.getElementById("tree");
+  let w = document.getElementById("war");
+  w.addEventListener("click", () => {
+    console.log("warrr");
+    input = "W";
+  })
+
+  t.addEventListener("click", () => {
+    console.log("treee");
+    input = "P";
+  })
+
   fill(255, 0, 255);
   noStroke();
-  textSize(500);
+  textSize(50);
   textAlign(CENTER, CENTER);
-  text(poseLabel, width / 2, height / 2);
-  if(poseLabel == "H")
-    text("hand", width / 2, height / 2);
-  if(poseLabel == "N")
-    text("Namn", width / 2, height / 2);
+  // console.log(input);
+  if(input == "") {
+    text("Choose pose", width/2, height/2);
+  }
+  else if(input == "P") {
+    if(poseLabel == "P")
+      text("Correct Pose", width / 2, height / 2);
+    else
+      text("Wrong Pose", width / 2, height / 2);
+  }
+  else if(input == "W") {
+    if(poseLabel == "W")
+      text("Correct Pose", width / 2, height / 2);
+    else
+      text("Wrong Pose", width / 2, height / 2);
+  }
+  // text(poseLabel, width / 2, height / 2);
+  // if(poseLabel == "P")
+  //   text("Tree Pose", width / 2, height / 2);
+  // if(poseLabel == "W")
+  //   text("Warrior Pose", width / 2, height / 2);
 }
