@@ -128,7 +128,10 @@ function draw() {
 
   fill(255, 0, 255);
   noStroke();
-  textSize(512);
+  textSize(50);
   textAlign(CENTER, CENTER);
-  text(poseLabel, width / 2, height / 2);
+  if(poseLabel == "H")
+    text("hand", width / 2, height / 2);
+  if(poseLabel == "N")
+    text("Namn", width / 2, height / 2);
 }
