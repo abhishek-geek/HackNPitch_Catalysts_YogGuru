@@ -1,111 +1,108 @@
- 
-// ml5.js: Train Your Own Neural Network
-// The Coding Train / Daniel Shiffman
-// https://thecodingtrain.com/learning/ml5/6.1-ml5-train-your-own.html
-// https://youtu.be/8HEgeAbYphA
-// https://editor.p5js.org/codingtrain/sketches/zwGahux8a
+let video;
+let poseNet;
+let pose;
+let skeleton;
 
-let model;
-let targetLabel = 'C';
-// let trainingData = [];
+let brain;
+let poseLabel = "";
 
-let state = 'collection';
-
-let notes = {
-  C: 261.6256,
-  D: 293.6648,
-  E: 329.6276
-};
-
-let env, wave;
+let state = 'waiting';
+let targetLabel;
 
 function setup() {
-  createCanvas(400, 400);
-
-  env = new p5.Envelope();
-  env.setADSR(0.05, 0.1, 0.5, 1);
-  env.setRange(1.2, 0);
-
-  wave = new p5.Oscillator();
-
-  wave.setType('sine');
-  wave.start();
-  wave.freq(440);
-  wave.amp(env);
+  createCanvas(640, 480);
+  video = createCapture(VIDEO);
+  video.hide();
+  poseNet = ml5.poseNet(video, ()=>console.log("poseNet loaded"));
+  poseNet.on('pose', gotPoses);
 
   let options = {
-    inputs: ['x', 'y'],
-    outputs: ['label'],
+    inputs: 34,
+    outputs: 2,
     task: 'classification',
-    debug: 'true'
-  };
-  model = ml5.neuralNetwork(options);
-  background(255);
+    debug: true
+  }
+  brain = ml5.neuralNetwork(options);
+  brain.loadData("./data/hn.json", dataReady);
 }
 
-function keyPressed() {
-  if (key == 't') {
-    state = 'training';
-    console.log('starting training');
-    model.normalizeData();
-    let options = {
-      epochs: 200
-    };
-    model.train(options, whileTraining, finishedTraining);
+function dataReady() {
+  console.log("data loaded");
+  brain.normalizeData();
+  console.log("normalized");
+  brain.train({
+    epochs: 50
+  }, finished);
+}
+
+function finished() {
+  console.log('model trained');
+  brain.save();
+  // classifyPose();
+}
+
+// function brainLoaded() {
+//   console.log("loaded pretrained model");
+//   classifyPose();
+// }
+
+function classifyPose() {
+  if (pose) {
+    let inputs = [];
+    for (let i = 0; i < pose.keypoints.length; i++) {
+      let x = pose.keypoints[i].position.x;
+      let y = pose.keypoints[i].position.y;
+      inputs.push(x);
+      inputs.push(y);
+    }
+    brain.classify(inputs, gotResult);
   } else {
-    targetLabel = key.toUpperCase();
+    setTimeout(classifyPose, 100);
   }
 }
 
-function whileTraining(epoch, loss) {
-  console.log(epoch);
+function gotResult(error, results) {  
+  if (results[0].confidence > 0.75) {
+    poseLabel = results[0].label.toUpperCase();
+  }
+  classifyPose();
 }
 
-function finishedTraining() {
-  console.log('finished training.');
-  state = 'prediction';
-}
-
-function mousePressed() {
-  let inputs = {
-    x: mouseX,
-    y: mouseY
-  };
-
-  if (state == 'collection') {
-    let target = {
-      label: targetLabel
-    };
-    model.addData(inputs, target);
-    stroke(0);
-    noFill();
-    ellipse(mouseX, mouseY, 24);
-    fill(0);
-    noStroke();
-    textAlign(CENTER, CENTER);
-    text(targetLabel, mouseX, mouseY);
-
-    wave.freq(notes[targetLabel]);
-    env.play();
-  } else if (state == 'prediction') {
-    model.classify(inputs, gotResults);
+function gotPoses(poses) {
+  if (poses.length > 0) {
+    pose = poses[0].pose;
+    skeleton = poses[0].skeleton;
   }
 }
 
-function gotResults(error, results) {
-  if (error) {
-    console.error(error);
-    return;
+function draw() {
+  push();
+  translate(video.width, 0);
+  scale(-1, 1);
+  image(video, 0, 0, video.width, video.height);
+
+  if (pose) {
+    for (let i = 0; i < skeleton.length; i++) {
+      let a = skeleton[i][0];
+      let b = skeleton[i][1];
+      strokeWeight(2);
+      stroke(0);
+
+      line(a.position.x, a.position.y, b.position.x, b.position.y);
+    }
+    for (let i = 0; i < pose.keypoints.length; i++) {
+      let x = pose.keypoints[i].position.x;
+      let y = pose.keypoints[i].position.y;
+      fill(0);
+      stroke(255);
+      ellipse(x, y, 16, 16);
+    }
   }
-  console.log(results);
-  stroke(0);
-  fill(0, 0, 255, 100);
-  ellipse(mouseX, mouseY, 24);
-  fill(0);
+  pop();
+
+  fill(255, 0, 255);
   noStroke();
+  textSize(512);
   textAlign(CENTER, CENTER);
-  let label = results[0].label;
-  text(label, mouseX, mouseY);
-  wave.freq(notes[label]);
-  env.play();
+  text(poseLabel, width / 2, height / 2);
 }
