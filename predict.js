@@ -70,7 +70,7 @@ function gotResult(error, results) {
     classifyPose();
   }
   if(res.label == "w") {
-    if (results[0].confidence > 0.9) {
+    if (results[0].confidence > 0.75) {
       poseLabel = results[0].label.toUpperCase();
     } else {
       poseLabel = "";
