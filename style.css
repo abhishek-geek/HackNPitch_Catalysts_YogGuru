@@ -1,0 +1,167 @@
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@200&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  line-height: 1.6;
+  font-family: "Overpass", sans-serif;
+}
+
+header {
+  height: 92vh;
+  /* background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%); */
+  background-image: linear-gradient(
+    to right top,
+    rgba(222, 224, 91, 0.767),
+    rgba(178, 233, 106, 0.7),
+    rgba(203, 33, 141, 0.7)
+  );
+  background-size: cover;
+  background-position: top;
+  position: relative;
+  background-attachment: fixed;
+}
+
+header .header {
+  padding-top: 0.1rem;
+  display: flex;
+  justify-content: space-evenly;
+  position: relative;
+}
+
+header .header__cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 5rem;
+}
+
+header .header__cta a {
+  color: darkslateblue;
+}
+
+header .header__heading {
+  width: 100%;
+  line-height: 1.2;
+  font-family: "Dosis", sans-serif;
+  font-size: 5rem;
+  letter-spacing: 0.4rem;
+  font-weight: lighter;
+  color: rgb(10, 10, 10);
+  margin-bottom: 2rem;
+}
+
+header .header__bg {
+  position: relative;
+  z-index: -1;
+  animation: up-down 2s ease-in-out infinite alternate-reverse both;
+}
+
+@-webkit-keyframes up-down {
+  0% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes up-down {
+  0% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(-20px);
+  }
+}
+
+header .header__bg img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  width: 49rem;
+  position: relative;
+  bottom: 0;
+}
+
+.btn {
+  text-transform: capitalize;
+  font-size: 1.5rem;
+  font-weight: 400;
+  border: 2.5px solid darkslateblue;
+  border-radius: 15px;
+  padding: 0.25rem 1rem;
+  transition: all 0.4s;
+}
+
+.btn:hover {
+  box-shadow: 0 0.8rem 1.4rem rgba(0, 0, 0, 0.4);
+  padding: 0.25rem 1rem;
+  border: none;
+  color: #fff;
+  transform: translateY(-3px);
+  background-image: linear-gradient(
+    to left bottom,
+    rgba(5, 213, 217, 0.767),
+    rgba(101, 23, 203, 0.7),
+    darkslateblue
+  );
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.navi {
+  height: 8vh;
+}
+
+.nav-item {
+  color: #bd2eaa;
+  font-weight: 900;
+}
+.nav-item:hover {
+  border-radius: 10px;
+  transition: 0.5s;
+  transform: scale(1.1);
+}
+.navbar-brand {
+  color: #bd2eaa;
+  font-weight: bolder;
+}
+
+.nav-item .nav-link {
+  color: #bd2eaa;
+}
+
+.nav-item .nav-link:hover {
+  color: #bd2eaa;
+  transition: 0.5s;
+  transform: scale(1.1);
+}
+
+.instruction {
+  margin-bottom: 5rem;
+}
+
+.card {
+  display: flex;
+  flex: 0 1 calc(25% - 1em);
+  justify-content: space-between;
+  float: left;
+  padding: 0 10px;
+}

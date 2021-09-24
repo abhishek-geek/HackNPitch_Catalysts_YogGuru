@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Yog Guru</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- p5 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/addons/p5.sound.min.js"></script>
+    <!-- ml5 -->
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <link rel="shortcut icon" href="images/y3.png" style="width: 20px;" type="image/x-icon">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-md bg-light">
+        <div class="container-fluid navi">
+            <a href="/" class="navbar-brand font-weight-bold">YogGuru</a>
+            <button class="navbar-toggler" type="button" data-toggler="collapse" data-target="#collapsenavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse text-center" id="collapsenavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link ">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="learn.html" class="nav-link ">LEARN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="practice.html" class="nav-link ">PRACTICE</a>
+                    </li>
+                </ul>
+            </div>
+  
+        </div>
+    </nav>
+    <script src=""></script>
+    <section class="container video-outer">
+        <div class="instruction">
+            <h1>Instructions</h1>
+            <li>To learn Phalakasana pose, say "Play video 1"</li>
+            <li>To stop this video, say "Pause video 1"</li>
+            <li>To learn Tadasana pose, say "Play video 2"</li>
+            <li>To stop this pose, say "Pause video 2"</li>
+        </div>
+        <div class="card">
+            <div class="card1">
+                <video id="myVideo1" style="width: 40%;">
+                    <source src="images/phalakasana.mp4" type="video/mp4"/>
+                </video>
+                <h2>Phalakasana Pose</h2>
+            </div>
+    
+            <div class="card2">
+                <video id="myVideo2" style="width: 40%;">
+                    <source src="images/mountain.mp4" type="video/mp4"/>
+                </video>
+                <h2>Tadasana Pose</h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- voice assistant -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+    <script>
+        if (annyang) {
+          // Let's define our first command. First the text we expect, and then the function it should call
+          var commands = {
+            'play video 1': function() {
+              document.getElementById("myVideo1").play();
+            },
+            'pause video 1': function() {
+              document.getElementById("myVideo1").pause();
+            },
+            'play video 2': function() {
+              document.getElementById("myVideo2").play();
+            },
+            'pause video 2': function() {
+              document.getElementById("myVideo2").pause();
+            },
+          };
+        
+          // Add our commands to annyang
+          annyang.addCommands(commands);
+        
+          // Start listening. You can call this here, or attach this call to an event, button, etc.
+          annyang.start();
+        }
+    </script>
+  </body>
+</html>

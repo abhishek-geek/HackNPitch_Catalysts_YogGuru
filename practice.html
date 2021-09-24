@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Yog Guru</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- p5 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/addons/p5.sound.min.js"></script>
+    <!-- ml5 -->
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="images/y3.png" style="width: 20px;" type="image/x-icon">   
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-md bg-light">
+        <div class="container-fluid navi">
+            <a href="/" class="navbar-brand font-weight-bold">YogGuru</a>
+            <button class="navbar-toggler" type="button" data-toggler="collapse" data-target="#collapsenavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse text-center" id="collapsenavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link ">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="learn.html" class="nav-link ">LEARN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="practice.html" class="nav-link ">PRACTICE</a>
+                    </li>
+                </ul>
+            </div>
+  
+        </div>
+    </nav>
+   <div class="container">
+    <script src="predict.js"></script>
+    <button id="start-btn" class="btn">Click and Say Hiiii</button><br><br>
+    <script src="script.js"></script>
+   </div>
+  </body>
+</html>
