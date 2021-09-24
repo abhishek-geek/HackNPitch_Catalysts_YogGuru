@@ -23,7 +23,7 @@ function setup() {
     debug: true
   }
   brain = ml5.neuralNetwork(options);
-  brain.loadData("./data/rl.json", dataReady);
+  brain.loadData("./data/hn.json", dataReady);
 }
 
 function dataReady() {
