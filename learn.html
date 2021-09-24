@@ -42,13 +42,28 @@
     </nav>
     <script src=""></script>
     <section class="container video-outer">
-        <video id="myVideo1" autoplay style="width: 40%;">
-            <source src="images/phalakasana.mp4" type="video/mp4"/>
-        </video>
-
-        <!-- <video id="myVideo2" autoplay style="width: 40%;">
-            <source src="images/mountain.mp4" type="video/mp4"/>
-        </video> -->
+        <div class="instruction">
+            <h1>Instructions</h1>
+            <li>To learn Phalakasana pose, say "Play video 1"</li>
+            <li>To stop this video, say "Pause video 1"</li>
+            <li>To learn Tadasana pose, say "Play video 2"</li>
+            <li>To stop this pose, say "Pause video 2"</li>
+        </div>
+        <div class="card">
+            <div class="card1">
+                <video id="myVideo1" style="width: 40%;">
+                    <source src="images/phalakasana.mp4" type="video/mp4"/>
+                </video>
+                <h2>Phalakasana Pose</h2>
+            </div>
+    
+            <div class="card2">
+                <video id="myVideo2" style="width: 40%;">
+                    <source src="images/mountain.mp4" type="video/mp4"/>
+                </video>
+                <h2>Tadasana Pose</h2>
+            </div>
+        </div>
     </section>
 
     <!-- voice assistant -->
@@ -63,12 +78,12 @@
             'pause video 1': function() {
               document.getElementById("myVideo1").pause();
             },
-            // 'play video 2': function() {
-            //   document.getElementById("myVideo2").play();
-            // },
-            // 'pause video 2': function() {
-            //   document.getElementById("myVideo2").pause();
-            // },
+            'play video 2': function() {
+              document.getElementById("myVideo2").play();
+            },
+            'pause video 2': function() {
+              document.getElementById("myVideo2").pause();
+            },
           };
         
           // Add our commands to annyang
