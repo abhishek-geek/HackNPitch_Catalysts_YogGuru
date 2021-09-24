@@ -1,6 +1,6 @@
  const startBtn=document.querySelector("#start-btn");
  const recognition=new  webkitSpeechRecognition();
- recognition.continous=false;
+ recognition.continous=true;
  recognition.lang="en-US";
  recognition.interimResults=false;
  recognition.maxAlternative=1;
@@ -20,7 +20,7 @@ utter.onend = () =>{
    
     const transcript= e.results[e.results.length-1][0].transcript.trim();
    
-    if(transcript==="hey")
+    if(transcript==="hello")
     {
         recognition.stop();
         utter.text =" Hi, How are you?";
@@ -35,7 +35,7 @@ utter.onend = () =>{
     else
     {
         recognition.stop();
-        utter.text =" Welcome to yogGuru";
+        utter.text =" Welcome to Yog Guru";
         synth.speak(utter);        
     }
    
