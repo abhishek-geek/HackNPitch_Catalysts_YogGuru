@@ -162,8 +162,17 @@ function draw() {
   if(input == "") {
     text("Choose pose", width/2, height/2);
   }
-  else if(poseLabel == input) {
-    text("Correct Pose", width / 2, height / 2);
+  else if(input == "P") {
+    if(poseLabel == "P")
+      text("Correct Pose", width / 2, height / 2);
+    else
+      text("Wrong Pose", width / 2, height / 2);
+  }
+  else if(input == "W") {
+    if(poseLabel == "W")
+      text("Correct Pose", width / 2, height / 2);
+    else
+      text("Wrong Pose", width / 2, height / 2);
   }
   // text(poseLabel, width / 2, height / 2);
   // if(poseLabel == "P")
